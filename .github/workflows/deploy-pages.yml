@@ -1,5 +1,6 @@
-# The full app needs Node.js (API + SQLite + uploads). This workflow publishes a
-# static snapshot of the front-end to GitHub Pages so the UI is viewable online.
+# Deploys the client-side version of the app (docs/) to GitHub Pages.
+# Data is stored in each visitor's browser via IndexedDB (demo mode).
+# The full multi-user Node.js version runs locally: npm install && npm start
 
 name: Deploy to GitHub Pages
 
@@ -25,19 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Create preview page
-        run: |
-          mkdir -p site
-          echo '<div style="font-family:sans-serif;max-width:700px;margin:60px auto;padding:0 20px">
-            <h1>🎒 Lost &amp; Found</h1>
-            <p>This is a front-end preview. The full app (image uploads, chat, item data)
-            requires the Node.js backend — see the README to run it locally with
-            <code>npm install &amp;&amp; npm start</code>.</p>
-          </div>' > site/index.html
-          cp -r public/uploads site/uploads
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: docs
       - id: deployment
         uses: actions/deploy-pages@v4
